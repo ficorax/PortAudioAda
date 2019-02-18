@@ -1,0 +1,15 @@
+library project PortAudioAda is
+
+   for Languages use ("Ada");
+   for Library_Name use "PortAudioAda";
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Library_Dir use "lib";
+   for Create_Missing_Dirs use "true";
+
+   package Compiler is
+      for Switches ("ada") use ("-gnatVa", "-gnatwae", "-gnatyBCIM80OSabdefhiklnoprstux", "-gnat12");
+   end Compiler;
+
+end PortAudioAda;
+
