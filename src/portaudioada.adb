@@ -150,7 +150,7 @@ package body PortAudioAda is
    -----------------------------------------------------------------------------
 
    function PA_GetVersionInfo return PaVersionInfo_Ptr
-     with Import => True, Convention => C, Link_Name => "PA_GetVersionInfo";
+     with Import => True, Convention => C, Link_Name => "Pa_GetVersionInfo";
 
    ------------------------
    -- PA_Get_Device_Info --
@@ -162,7 +162,7 @@ package body PortAudioAda is
    is
       function Internal (device : PA_Device_Index)
                          return Device_Info_Ptr
-        with Import => True, Convention => C, Link_Name => "PA_GetDeviceInfo";
+        with Import => True, Convention => C, Link_Name => "Pa_GetDeviceInfo";
 
       rc  : constant Device_Info_Ptr := Internal (Device);
       str : constant String := IC.To_Ada (ICS.Value (rc.name));
@@ -187,7 +187,7 @@ package body PortAudioAda is
    function PA_Get_Error_Text (Error_Code : PA_Error) return String
    is
       function Internal (error : PA_Error) return ICS.chars_ptr
-        with Import => True, Convention => C, Link_Name => "PA_GetErrorText";
+        with Import => True, Convention => C, Link_Name => "Pa_GetErrorText";
    begin
       return ICS.Value (Internal (Error_Code));
    end PA_Get_Error_Text;
@@ -202,7 +202,7 @@ package body PortAudioAda is
    is
       function Internal (hostApi : PA_Host_Api_Index)
                          return HostApiInfo_Ptr
-        with Import => True, Convention => C, Link_Name => "PA_GetHostApiInfo";
+        with Import => True, Convention => C, Link_Name => "Pa_GetHostApiInfo";
 
       rc  : constant HostApiInfo_Ptr := Internal (Host_Api);
       str : constant String := IC.To_Ada (ICS.Value (rc.name));
@@ -227,7 +227,7 @@ package body PortAudioAda is
         with
           Import => True,
           Convention => C,
-          Link_Name => "PA_GetLastHostErrorInfo";
+          Link_Name => "Pa_GetLastHostErrorInfo";
 
       rc  : constant HostErrorInfo_Ptr := Internal;
       str : constant String := IC.To_Ada (ICS.Value (rc.errorText));
@@ -264,7 +264,7 @@ package body PortAudioAda is
    function PA_Get_Stream_Info (Stream : PA_Stream_Ptr) return PaStreamInfo
    is
       function Internal (Stream : PA_Stream_Ptr) return Stream_Info_Ptr
-        with Import => True, Convention => C, Link_Name => "PA_GetStreamInfo";
+        with Import => True, Convention => C, Link_Name => "Pa_GetStreamInfo";
 
      Rc : constant Stream_Info_Ptr := Internal (Stream);
    begin

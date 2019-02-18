@@ -631,7 +631,7 @@ package PortAudioAda is
    -----------------------------------------------------------------------------
 
    function PA_Initialize return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_Initialize";
+     with Import => True, Convention => C, Link_Name => "Pa_Initialize";
    --  Library initialization function - call this before using PortAudio.
    --  This function initializes internal data structures and prepares
    --  underlying host APIs for use.  With the exception of Get_Version,
@@ -652,7 +652,7 @@ package PortAudioAda is
    --  See Also: PA_Terminate
 
    function PA_Terminate return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_Terminate";
+     with Import => True, Convention => C, Link_Name => "Pa_Terminate";
    --  Library termination function - call this when finished using PortAudio.
    --  This function deallocates all resources allocated by PortAudio since it
    --  was initialized by a call to PA_Initialize. In cases where PA_Initialize
@@ -694,7 +694,7 @@ package PortAudioAda is
    --  @return Human readable message.
 
    function PA_Get_Sample_Size (Format : PA_Sample_Format) return Integer
-     with Import => True, Convention => C, Link_Name => "PA_GetSampleSize";
+     with Import => True, Convention => C, Link_Name => "Pa_GetSampleSize";
    --  Retrieve the size of a given sample format in bytes.
    --
    --  @param format Sample format
@@ -708,7 +708,7 @@ package PortAudioAda is
    -----------------------------------------------------------------------------
 
    function PA_Get_Host_API_Count return PA_Host_Api_Index
-     with Import => True, Convention => C, Link_Name => "PA_GetHostApiCount";
+     with Import => True, Convention => C, Link_Name => "Pa_GetHostApiCount";
    --  Retrieve the number of available host APIs. Even if a host API is
    --  available it may have no devices available.
    --
@@ -719,7 +719,7 @@ package PortAudioAda is
    --  See PaHostApiIndex
 
    function PA_Get_Default_Host_API return PA_Host_Api_Index
-     with Import => True, Convention => C, Link_Name => "PA_GetDefaultHostApi";
+     with Import => True, Convention => C, Link_Name => "Pa_GetDefaultHostApi";
    --  Retrieve the index of the default host API. The default host API will be
    --  the lowest common denominator host API on the current platform and is
    --  unlikely to provide the best performance.
@@ -745,7 +745,7 @@ package PortAudioAda is
      with
        Import => True,
        Convention => C,
-       Link_Name => "PA_HostApiTypeIdToHostApiIndex";
+       Link_Name => "Pa_HostApiTypeIdToHostApiIndex";
    --  Convert a static host API unique identifier, into a runtime host API
    --  index.
    --
@@ -768,7 +768,7 @@ package PortAudioAda is
      with
        Import => True,
        Convention => C,
-       Link_Name => "PA_HostApiDeviceIndexToDeviceIndex";
+       Link_Name => "Pa_HostApiDeviceIndexToDeviceIndex";
    --  Convert a host-API-specific device index to standard PortAudio device
    --  index. This function may be used in conjunction with the deviceCount
    --  field of PaHostApiInfo to enumerate all devices for the specified host
@@ -812,7 +812,7 @@ package PortAudioAda is
    -----------------------------------------------------------------------------
 
    function PA_Get_Device_Count return PA_Device_Index
-     with Import => True, Convention => C, Link_Name => "PA_GetDeviceCount";
+     with Import => True, Convention => C, Link_Name => "Pa_GetDeviceCount";
    --  Retrieve the number of available devices. The number of available
    --  devices may be zero.
    --
@@ -825,7 +825,7 @@ package PortAudioAda is
      with
        Import => True,
        Convention => C,
-       Link_Name => "PA_GetDefaultInputDevice";
+       Link_Name => "Pa_GetDefaultInputDevice";
    --  Retrieve the index of the default input device. The result can be
    --  used in the inputDevice parameter to PA_OpenStream().
    --
@@ -837,14 +837,14 @@ package PortAudioAda is
      with
        Import => True,
        Convention => C,
-       Link_Name => "PA_GetDefaultOutputDevice";
+       Link_Name => "Pa_GetDefaultOutputDevice";
    --  Retrieve the index of the default output device. The result can be used
    --  in the outputDevice parameter to Open_Stream.
    --  Note    On the PC, the user can specify a default device by setting an
    --  environment variable. For example, to use device #1.
    --     set PA_RECOMMENDED_OUTPUT_DEVICE=1
    --  The user should first determine the available device ids by using
-   --  the supplied application "PA_devs".
+   --  the supplied application "Pa_devs".
    --
    --  @return The default output device index for the default host API, or
    --  paNoDevice if no default output device is available or an error
@@ -870,7 +870,7 @@ package PortAudioAda is
       Output_Parameters : access PA_Stream_Parameters;
       Ssample_Rate      : Long_Float)
       return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_IsFormatSupported";
+     with Import => True, Convention => C, Link_Name => "Pa_IsFormatSupported";
    --  Determine whether it would be possible to open a stream with the
    --  specified parameters.
    --
@@ -903,7 +903,7 @@ package PortAudioAda is
                             Stream_Callback   :        PA_Stream_Callback;
                             User_Data         :        System.Address)
                             return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_OpenStream";
+     with Import => True, Convention => C, Link_Name => "Pa_OpenStream";
    --  Opens a stream for either input, output or both.
    --
    --  @param stream The address of a PaStream pointer which will receive
@@ -972,7 +972,7 @@ package PortAudioAda is
       Stream_Callback     :        PA_Stream_Callback;
       User_Data           :        System.Address)
       return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_OpenDefaultStream";
+     with Import => True, Convention => C, Link_Name => "Pa_OpenDefaultStream";
    --  A simplified version of PA_OpenStream that opens the default input
    --  and/or output devices.
    --
@@ -1009,7 +1009,7 @@ package PortAudioAda is
    --  See Also: PA_OpenStream, PaStreamCallback
 
    function PA_Close_Stream (Stream : PA_Stream_Ptr) return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_CloseStream";
+     with Import => True, Convention => C, Link_Name => "Pa_CloseStream";
    --  Closes an audio stream. If the audio stream is active it discards any
    --  pending buffers as if PA_AbortStream had been called.
    --
@@ -1022,7 +1022,7 @@ package PortAudioAda is
      with
        Import => True,
        Convention => C,
-       Link_Name => "PA_SetStreamFinishedCallback";
+       Link_Name => "Pa_SetStreamFinishedCallback";
    --  Register a stream finished callback function which will be called when
    --  the  stream becomes inactive. See the description of
    --  PaStreamFinishedCallback for  further details about when the callback
@@ -1043,27 +1043,27 @@ package PortAudioAda is
    --  See Also: PaStreamFinishedCallback
 
    function PA_Start_Stream (Stream : PA_Stream_Ptr) return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_StartStream";
+     with Import => True, Convention => C, Link_Name => "Pa_StartStream";
    --  Commences audio processing.
    --
    --  @param stream A stream to start
 
    function PA_Stop_Stream (Stream : PA_Stream_Ptr) return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_StopStream";
+     with Import => True, Convention => C, Link_Name => "Pa_StopStream";
    --  Terminates audio processing. It waits until all pending audio buffers
    --  have been played before it returns.
    --
    --  @param stream A stream to stop
 
    function Abort_Stream (Stream : PA_Stream_Ptr) return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_AbortStream";
+     with Import => True, Convention => C, Link_Name => "Pa_AbortStream";
    --  Terminates audio processing immediately without waiting for pending
    --  buffers to complete.
    --
    --  @param stream A stream to abort
 
    function PA_Is_Stream_Stopped (Stream : PA_Stream_Ptr) return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_IsStreamStopped";
+     with Import => True, Convention => C, Link_Name => "Pa_IsStreamStopped";
    --  Determine whether the stream is stopped.
    --  A stream is considered to be stopped prior to a successful call
    --  to PA_StartStream and after a successful call to PA_StopStream or
@@ -1079,7 +1079,7 @@ package PortAudioAda is
    --  See Also: Stop_Stream, Abort_Stream, Is_Stream_Active
 
    function PA_Is_Stream_Active (Stream : PA_Stream_Ptr) return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_IsStreamActive";
+     with Import => True, Convention => C, Link_Name => "Pa_IsStreamActive";
    --  Determine whether the stream is active.
    --  A stream is active after a successful call to PA_StartStream, until it
    --  becomes inactive either as a result of a call to PA_StopStream or
@@ -1114,7 +1114,7 @@ package PortAudioAda is
    --  See Also: PaStreamInfo
 
    function PA_Get_Stream_Time (Stream : PA_Stream_Ptr) return PA_Time
-     with Import => True, Convention => C, Link_Name => "PA_GetStreamTime";
+     with Import => True, Convention => C, Link_Name => "Pa_GetStreamTime";
    --  Returns the current time in seconds for a stream according to the same
    --  clock used to generate callback PaStreamCallbackTimeInfo timestamps. The
    --  time values are monotonically increasing and have unspecified origin.
@@ -1131,7 +1131,7 @@ package PortAudioAda is
    --  See Also: PaTime, PaStreamCallback, PaStreamCallbackTimeInfo
 
    function PA_Get_Stream_Cpu_Load (Stream : PA_Stream_Ptr) return Long_Float
-     with Import => True, Convention => C, Link_Name => "PA_GetStreamCpuLoad";
+     with Import => True, Convention => C, Link_Name => "Pa_GetStreamCpuLoad";
    --  Retrieve CPU usage information for the specified stream.
    --  The "CPU Load" is a fraction of total CPU time consumed by a callback
    --  stream's audio processing routines including, but not limited to the
@@ -1153,7 +1153,7 @@ package PortAudioAda is
                             Buffer : System.Address;
                             Frames : IC.unsigned_long)
                             return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_ReadStream";
+     with Import => True, Convention => C, Link_Name => "Pa_ReadStream";
    --  Read samples from an input stream. The function doesn't return until
    --  the entire buffer has been filled - this may involve waiting for the
    --  operating  system to supply the data.
@@ -1181,7 +1181,7 @@ package PortAudioAda is
                              Buffer : System.Address;
                              Frames : IC.unsigned_long)
                              return PA_Error
-     with Import => True, Convention => C, Link_Name => "PA_WriteStream";
+     with Import => True, Convention => C, Link_Name => "Pa_WriteStream";
    --  Write samples to an output stream. This function doesn't return until the
    --  entire buffer has been consumed - this may involve waiting for the
    --  operating system to consume the data.
@@ -1210,7 +1210,7 @@ package PortAudioAda is
      with
        Import => True,
        Convention => C,
-       Link_Name => "PA_GetStreamReadAvailable";
+       Link_Name => "Pa_GetStreamReadAvailable";
    --  Retrieve the number of frames that can be read from the stream without
    --  waiting.
    --
@@ -1224,7 +1224,7 @@ package PortAudioAda is
      with
        Import => True,
        Convention => C,
-       Link_Name => "PA_GetStreamWriteAvailable";
+       Link_Name => "Pa_GetStreamWriteAvailable";
    --  Retrieve the number of frames that can be written to the stream without
    --  waiting.
    --
