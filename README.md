@@ -1,2 +1,2 @@
 # PortAudioAda
-Ada bindings to PortAudio
+Ada bindings for PortAudio
