@@ -3,8 +3,6 @@ with Ada.Unchecked_Conversion;
 
 with Interfaces.C.Pointers;
 
-with System;
-
 with Pa_MinLat_Types; use Pa_MinLat_Types;
 
 package body Pa_MinLat_Callbacks is
@@ -45,8 +43,8 @@ package body Pa_MinLat_Callbacks is
 
       oBuff          : Float_Star := Convert (outputBuffer);
       lData          : constant paTestData_Ptr := Convert (userData);
-      left_phaseInc  : Float := 0.02;
-      right_phaseInc : Float := 0.06;
+      left_phaseInc  : constant Float := 0.02;
+      right_phaseInc : constant Float := 0.06;
 
       left_phase     : Float := lData.all.left_phase;
       right_phase    : Float := lData.all.right_phase;

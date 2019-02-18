@@ -25,7 +25,7 @@ package Pa_MinLat_Types is
    pragma Convention (C, paTestData_Ptr);
    pragma No_Strict_Aliasing (paTestData_Ptr);
 
-   outputParameters : aliased Pa_Stream_Parameters;
+   outputParameters : aliased PA_Stream_Parameters;
    data             : aliased paTestData;
    pragma Convention (C, data);
 

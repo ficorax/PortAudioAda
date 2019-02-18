@@ -6,34 +6,38 @@ with System;
 
 with PortAudioAda;           use PortAudioAda;
 
-procedure Pa_Devices
+procedure PA_Devices
 is
    procedure Print_Supported_Standard_Sample_Rates
-     (inputParameters  : access Pa_Stream_Parameters;
-      outputParameters : access Pa_Stream_Parameters)
+     (inputParameters  : access PA_Stream_Parameters;
+      outputParameters : access PA_Stream_Parameters);
+
+   procedure Print_Supported_Standard_Sample_Rates
+     (inputParameters  : access PA_Stream_Parameters;
+      outputParameters : access PA_Stream_Parameters)
    is
-      standardSampleRates : array (Natural range <>) of Long_Float :=
-        (  8000.0,
-           9600.0,
-          11025.0,
-          12000.0,
-          16000.0,
-          22050.0,
-          24000.0,
-          32000.0,
-          44100.0,
-          48000.0,
-          88200.0,
-          96000.0,
+      standardSampleRates : constant array (Natural range <>) of Long_Float :=
+        (8000.0,
+         9600.0,
+         11025.0,
+         12000.0,
+         16000.0,
+         22050.0,
+         24000.0,
+         32000.0,
+         44100.0,
+         48000.0,
+         88200.0,
+         96000.0,
          192000.0
         );
 
       printCount : Integer;
-      err        : Pa_Error;
+      err        : PA_Error;
    begin
       printCount := 0;
 
-    for i in standardSampleRates'Range loop
+      for i in standardSampleRates'Range loop
          err := PA_Is_Format_Supported (inputParameters,
                                         outputParameters,
                                         standardSampleRates (i));
@@ -41,7 +45,7 @@ is
         if err = paFormatIsSupported then
             if printCount = 0 then
                Put (ASCII.HT);
-               Put (standardSampleRates (i), 8, 2, 0 );
+               Put (standardSampleRates (i), 8, 2, 0);
                printCount := 1;
             elsif printCount = 4 then
                Put (",");
@@ -54,7 +58,7 @@ is
                Put (standardSampleRates (i), 8, 2, 0);
                printCount := printCount + 1;
             end if;
-         end if;
+        end if;
       end loop;
 
       if printCount = 0 then
@@ -64,7 +68,7 @@ is
       end if;
    end Print_Supported_Standard_Sample_Rates;
 
-   err        : Pa_Error;
+   err        : PA_Error;
    numHostApi : PA_Host_Api_Index;
    numDevices : PA_Device_Index;
 begin
@@ -73,13 +77,13 @@ begin
    New_Line;
 
    if err /= paNoError then
-      Put_Line ("ERROR: Pa_Initialize returned " & err'Image );
+      Put_Line ("ERROR: PA_Initialize returned " & err'Image);
       raise PortAudio_Exception;
    end if;
 
-   Put_Line ("PortAudio version: " & Pa_Get_Version);
+   Put_Line ("PortAudio version: " & PA_Get_Version);
 
-   numHostApi := Pa_Get_Host_API_Count;
+   numHostApi := PA_Get_Host_API_Count;
 
    if numHostApi < 0 then
       Put_Line ("ERROR: Get_API_Count returned " & numHostApi'Image);
@@ -88,8 +92,7 @@ begin
 
    Put_Line ("Number of Host API:" & numHostApi'Image);
 
-
-   numDevices := Pa_Get_Device_Count;
+   numDevices := PA_Get_Device_Count;
 
    if numDevices < 0 then
       Put_Line ("ERROR: Get_Device_Count returned " & numDevices'Image);
@@ -100,22 +103,25 @@ begin
 
    for i in 0 .. numDevices - 1 loop
       declare
-         deviceInfo       : PA_Device_Info := Pa_Get_Device_Info (i);
+         deviceInfo       : constant PA_Device_Info := PA_Get_Device_Info (i);
          defaultDisplayed : Boolean := False;
          inputParameters,
          outputParameters : aliased PA_Stream_Parameters;
 
       begin
-         Put_Line ("--------------------------------------- device #" & i'Image);
+         Put_Line
+           ("--------------------------------------- device #" & i'Image);
 
          --  Mark global and API specific default devices
 
          if i = PA_Get_Default_Input_Device then
             Put ("[ Default Input");
             defaultDisplayed := True;
-         elsif i = PA_Get_Host_Api_Info (deviceInfo.hostApi).defaultInputDevice then
+         elsif i = PA_Get_Host_Api_Info (deviceInfo.hostApi).defaultInputDevice
+         then
             declare
-               hostInfo : PA_Host_Api_Info := PA_Get_Host_Api_Info (deviceInfo.hostApi);
+               hostInfo : constant PA_Host_Api_Info
+                 := PA_Get_Host_Api_Info (deviceInfo.hostApi);
             begin
                Put ("[ Default " & hostInfo.name & " Input");
                defaultDisplayed := True;
@@ -123,12 +129,14 @@ begin
          end if;
 
          if i = PA_Get_Default_Output_Device then
-            Put ( (if defaultDisplayed then "," else "["));
+            Put ((if defaultDisplayed then "," else "["));
             Put (" Default Output");
             defaultDisplayed := True;
-         elsif  i = PA_Get_Host_Api_Info (deviceInfo.hostApi).defaultOutputDevice then
+         elsif i = PA_Get_Host_Api_Info (deviceInfo.hostApi).defaultOutputDevice
+         then
             declare
-               hostInfo : PA_Host_Api_Info := PA_Get_Host_Api_Info (deviceInfo.hostApi);
+               hostInfo : constant PA_Host_Api_Info
+                 := PA_Get_Host_Api_Info (deviceInfo.hostApi);
             begin
                Put ((if defaultDisplayed then "," else "["));
                Put (" Default " & hostInfo.name & " Output");
@@ -203,7 +211,8 @@ begin
          end if;
 
          if inputParameters.channelCount > 0
-           and outputParameters.channelCount > 0 then
+           and then outputParameters.channelCount > 0
+         then
             Put_Line ("Supported standard sample rates");
             Put (" for full-duplex 16 bit ");
             Put (inputParameters.channelCount, 0);
@@ -227,4 +236,4 @@ exception
       Put_Line ("Error number:  " & err'Image);
       Put_Line ("Error message: " & PA_Get_Error_Text (err));
 
-end Pa_Devices;
+end PA_Devices;

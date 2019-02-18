@@ -6,25 +6,25 @@ with System; use System;
 
 with PortAudioAda; use PortAudioAda;
 
-with Pa_MinLat_Types; use Pa_MinLat_Types;
+with Pa_MinLat_Types;     use Pa_MinLat_Types;
 with Pa_MinLat_Callbacks; use Pa_MinLat_Callbacks;
 
-procedure Pa_MinLat
+procedure PA_MinLat
 is
    package ACL renames Ada.Command_Line;
 
-   err             : Pa_Error;
-   stream          : aliased Pa_Stream_Ptr;
+   err             : PA_Error;
+   stream          : aliased PA_Stream_Ptr;
    framesPerBuffer : Integer := Default_Buffer_Size;
    outLatency      : Integer := 0;
    minLatency      : constant Integer := Default_Buffer_Size * 2;
-   sampleRate      : Long_Float   := 44100.0;
+   sampleRate      : constant Long_Float   := 44100.0;
 
    Finish          : Boolean := False;
 begin
-   Put_Line ("pa_minlat - Determine minimum latency for your computer.");
-   Put_Line ("  usage:         pa_minlat {userBufferSize}");
-   Put_Line ("  for example:   pa_minlat 64");
+   Put_Line ("PA_minlat - Determine minimum latency for your computer.");
+   Put_Line ("  usage:         PA_minlat {userBufferSize}");
+   Put_Line ("  for example:   PA_minlat 64");
    Put_Line ("Adjust your stereo until you hear" &
              " a smooth tone in each speaker.");
    Put_Line ("Then try to find the smallest number" &
@@ -59,7 +59,7 @@ begin
       outputParameters.channelCount     := 2;
       outputParameters.sampleFormat     := paFloat32;
       outputParameters.suggestedLatency :=
-        Pa_Time (outLatency) / Pa_Time (sampleRate);
+        PA_Time (outLatency) / PA_Time (sampleRate);
       outputParameters.hostApiSpecificStreamInfo := System.Null_Address;
 
       --  printf("%6.1f msec.\n", outLatency, . * 1000.0 );
@@ -80,7 +80,7 @@ begin
          paMinLatCallback'Access,
          data'Address);
 
-      if err /= paNoError or stream = null then
+      if err /= paNoError or else stream = null then
          raise PortAudio_Exception;
       end if;
 
@@ -145,7 +145,7 @@ exception
       err := PA_Terminate;
 
       Put_Line ("Error occured while using the PortAudio stream");
-      Put_Line ("Error code: " & Pa_Error'Image (err));
+      Put_Line ("Error code: " & PA_Error'Image (err));
       Put_Line ("Error message: " & PA_Get_Error_Text (err));
 
-end Pa_MinLat;
+end PA_MinLat;
