@@ -11,5 +11,9 @@ library project PortAudioAda is
       for Switches ("ada") use ("-gnatVa", "-gnatwae", "-gnatyBCIM80OSabdefhiklnoprstux", "-gnat12");
    end Compiler;
 
+   package Ide is
+      for Vcs_Kind use "git";
+   end Ide;
+
 end PortAudioAda;
 
