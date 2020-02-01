@@ -1,0 +1,14 @@
+with "../../portaudioada.gpr";
+
+project PaEx_Sine is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Exec_Dir use "../../bin";
+   for Main use ("paex_sine.adb");
+
+   package Linker is
+      for Switches ("ada") use ("-lportaudio");
+   end Linker;
+
+end PaEx_Sine;

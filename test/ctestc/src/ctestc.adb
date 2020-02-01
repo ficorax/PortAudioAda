@@ -6,10 +6,10 @@ with System; use System;
 
 with PortAudioAda; use PortAudioAda;
 
-with Pa_MinLat_Types;     use Pa_MinLat_Types;
-with Pa_MinLat_Callbacks; use Pa_MinLat_Callbacks;
+with Ctestc_Types; use Ctestc_Types;
+with Ctestc_Callbacks; use Ctestc_Callbacks;
 
-procedure PA_MinLat
+procedure Ctestc
 is
    package ACL renames Ada.Command_Line;
 
@@ -18,13 +18,13 @@ is
    framesPerBuffer : Integer := Default_Buffer_Size;
    outLatency      : Integer := 0;
    minLatency      : constant Integer := Default_Buffer_Size * 2;
-   sampleRate      : constant Long_Float   := 44100.0;
+   sampleRate      : Long_Float   := 44100.0;
 
    Finish          : Boolean := False;
 begin
-   Put_Line ("PA_minlat - Determine minimum latency for your computer.");
-   Put_Line ("  usage:         PA_minlat {userBufferSize}");
-   Put_Line ("  for example:   PA_minlat 64");
+   Put_Line ("pa_minlat - Determine minimum latency for your computer.");
+   Put_Line ("  usage:         pa_minlat {userBufferSize}");
+   Put_Line ("  for example:   pa_minlat 64");
    Put_Line ("Adjust your stereo until you hear" &
              " a smooth tone in each speaker.");
    Put_Line ("Then try to find the smallest number" &
@@ -80,7 +80,7 @@ begin
          paMinLatCallback'Access,
          data'Address);
 
-      if err /= paNoError or else stream = null then
+      if err /= paNoError or stream = null then
          raise PortAudio_Exception;
       end if;
 
@@ -101,8 +101,7 @@ begin
       Put (", enter new number of frames, or 'q' to quit: ");
 
       declare
-         type String_Access is access all String;
-         str : constant String_Access := new String'(Ada.Text_IO.Get_Line);
+         str : constant access String := new String'(Ada.Text_IO.Get_Line);
       begin
          if str.all (1) = 'q' then
             Finish := True;
@@ -149,4 +148,4 @@ exception
       Put_Line ("Error code: " & PA_Error'Image (err));
       Put_Line ("Error message: " & PA_Get_Error_Text (err));
 
-end PA_MinLat;
+end Ctestc;
